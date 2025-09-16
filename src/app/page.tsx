@@ -1,103 +1,136 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, BookOpen, Users, Zap, Github, Twitter, Linkedin } from "lucide-react";
+
+// NAVBAR DOCK
+function Navbar() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <motion.nav
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50"
+    >
+      <div className="flex gap-8 items-center bg-gray-900/80 backdrop-blur-lg rounded-full px-8 py-3 shadow-lg border border-white/10">
+        <a href="#features" className="text-gray-300 hover:text-white transition">Features</a>
+        <a href="#how" className="text-gray-300 hover:text-white transition">How It Works</a>
+        <a href="#testimonials" className="text-gray-300 hover:text-white transition">Testimonials</a>
+        <Button className="bg-indigo-500 hover:bg-indigo-600 rounded-full px-5 py-2">Get Started</Button>
+      </div>
+    </motion.nav>
+  );
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+// FOOTER
+function Footer() {
+  return (
+    <footer className="bg-gray-950 text-gray-400 py-12 mt-20 border-t border-white/10">
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+        <div>
+          <h3 className="text-white font-bold text-xl">StudyHub</h3>
+          <p className="mt-3 text-sm">Collaborative workspace for students to study smarter together.</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div>
+          <h4 className="text-white font-semibold mb-3">Quick Links</h4>
+          <ul className="space-y-2">
+            <li><a href="#features" className="hover:text-white transition">Features</a></li>
+            <li><a href="#how" className="hover:text-white transition">How It Works</a></li>
+            <li><a href="#pricing" className="hover:text-white transition">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="text-white font-semibold mb-3">Follow Us</h4>
+          <div className="flex gap-4">
+            <a href="#" className="hover:text-white transition"><Github /></a>
+            <a href="#" className="hover:text-white transition"><Twitter /></a>
+            <a href="#" className="hover:text-white transition"><Linkedin /></a>
+          </div>
+        </div>
+      </div>
+      <div className="text-center mt-10 text-sm text-gray-500">
+        © {new Date().getFullYear()} StudyHub. All rights reserved.
+      </div>
+    </footer>
+  );
+}
+
+export default function LandingPage() {
+  return (
+    <main className="bg-gradient-to-b from-gray-900 to-black text-white overflow-hidden">
+      <Navbar />
+
+      {/* HERO */}
+      <section className="pt-40 pb-32 px-6 md:px-20 grid md:grid-cols-2 gap-10 items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+            Study Smarter. <br /> <span className="text-indigo-500">Together.</span>
+          </h1>
+          <p className="mt-6 text-lg text-gray-300">
+            StudyHub is your AI-powered collaborative study space. Organize, share, and learn — faster.
+          </p>
+          <div className="mt-8 flex gap-4">
+            <Button className="bg-indigo-500 hover:bg-indigo-600 rounded-full px-6 py-3 flex items-center gap-2">
+              Get Started <ArrowRight size={18} />
+            </Button>
+            <Button variant="outline" className="rounded-full px-6 py-3 border-gray-500 text-gray-300 hover:bg-gray-800">
+              Learn More
+            </Button>
+          </div>
+        </motion.div>
+
+        {/* Animated Illustration Placeholder */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="flex justify-center"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <div className="w-80 h-80 bg-indigo-500/10 border border-indigo-500 rounded-3xl flex items-center justify-center text-indigo-300">
+            [3D Illustration / Lottie Animation Here]
+          </div>
+        </motion.div>
+      </section>
+
+      {/* FEATURES */}
+      <section id="features" className="py-20 px-6 md:px-20">
+        <h2 className="text-4xl font-bold text-center mb-16">Why Students Love StudyHub</h2>
+        <div className="grid md:grid-cols-3 gap-10">
+          {[
+            { icon: BookOpen, title: "AI Summaries", desc: "Turn hours of notes into minutes of insights." },
+            { icon: Users, title: "Collaboration", desc: "Study with peers in real-time sessions." },
+            { icon: Zap, title: "Exam Predictions", desc: "Get AI-powered probable exam questions." },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.2 }}
+              viewport={{ once: true }}
+              className="bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-indigo-500/20 transition text-center"
+            >
+              <item.icon className="w-10 h-10 text-indigo-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+              <p className="text-gray-400">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-6 md:px-20 text-center bg-gradient-to-r from-indigo-600 to-pink-500 rounded-t-[4rem]">
+        <h2 className="text-4xl font-bold mb-6">Ready to Level Up Your Study Game?</h2>
+        <Button className="bg-black text-white hover:bg-gray-900 rounded-full px-8 py-4 text-lg">
+          Join Now
+        </Button>
+      </section>
+
+      <Footer />
+    </main>
   );
 }
