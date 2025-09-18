@@ -5,7 +5,6 @@ export interface Summary extends Document {
     summaryText:string;
     generatedBy:Schema.Types.ObjectId;
     tokensUsed:number;
-
 }
 
 const summarySchema:Schema<Summary> = new mongoose.Schema({
@@ -15,12 +14,12 @@ const summarySchema:Schema<Summary> = new mongoose.Schema({
     },
     summaryText:{
         type:String,
-        
-
+        required:true
     },
     generatedBy:{
         type:Schema.Types.ObjectId,
-        ref:'User'
+        ref:'User',
+        required:true
     },
     tokensUsed:{
         type:Number

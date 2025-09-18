@@ -5,7 +5,11 @@ export interface Quiz  extends Document {
     topicId:Schema.Types.ObjectId;
     documentId:Schema.Types.ObjectId;
     title?:String;
-    questions:[];
+    questions:[{
+        question: String;
+        options: String[];
+        answer: String;
+    }];
     createdBy:Schema.Types.ObjectId
 
     
@@ -25,14 +29,20 @@ const QuizSchema:Schema<Quiz> = new mongoose.Schema({
         ref:'document'
     },
     title:{
-        type:String
+        type:String,
+        required:true
     },
     questions:{
-        type:[]
+        type:[  {
+            question: { type: String, required: true },
+            options: [{ type: String, required: true }],
+            answer: { type: String, required: true }
+          }],
     },
     createdBy:{
         type:Schema.Types.ObjectId,
-        ref:'User'
+        ref:'User',
+        required:true
 
     }
 

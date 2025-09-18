@@ -8,7 +8,7 @@ export interface documents  extends Document {
     uploadedBy: Schema.Types.ObjectId;
     fileName:string;
     fileUrl:string;
-    fileType: "pdf" | "docx" | "pptx";
+    fileType: "pdf" | "docx" | "pptx" | "txt" | "csv";
     size:number; 
 }
 
@@ -39,7 +39,7 @@ const documentsSchema:Schema<documents> = new mongoose.Schema({
     },
     fileType:{
         type:String,
-        enum:["pdf","docx","pptx"],
+        enum:["pdf","docx","pptx","txt","csv"],
     },
     size:{
         type:Number,

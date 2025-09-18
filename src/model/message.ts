@@ -1,13 +1,13 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-//we could also use types instead of interface 
+
 export interface Message extends Document {
 sessionId:Schema.Types.ObjectId;
-senderId:string;
+senderId:Schema.Types.ObjectId;
 content:string;
 messageType?:"text|image|file" , default:"text";
-fileUrl:string;
-fileName:string;
+fileUrl?:string;
+fileName?:string;
 
 }
 
@@ -18,7 +18,8 @@ const MessageSchema:Schema<Message> = new mongoose.Schema({
         ref:"Session"
     },
     senderId:{
-        type:String,
+        type:Schema.Types.ObjectId,
+        ref:"User",
         required:true
     },
     content:{
@@ -36,7 +37,7 @@ const MessageSchema:Schema<Message> = new mongoose.Schema({
     },
     fileName:{
         type:String,
-        required:true
+        default:null
     }
 
 })

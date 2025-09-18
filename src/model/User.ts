@@ -8,7 +8,6 @@ export interface User extends Document {
     role: "creator" | "member" | "unassigned";
     sessionsJoined: Schema.Types.ObjectId[];
     sessionsCreated: Schema.Types.ObjectId[];
-    sessionId: Schema.Types.ObjectId;
 }
 
 const UserSchema: Schema<User> = new mongoose.Schema({
@@ -49,11 +48,6 @@ const UserSchema: Schema<User> = new mongoose.Schema({
         ref: 'Session',
         default: [],
     },
-    sessionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Session',
-        default: null,
-    }
 },
 {
     timestamps: true,

@@ -10,7 +10,6 @@ export interface Session extends Document {
     members: Schema.Types.ObjectId[];
     messages: Schema.Types.ObjectId[];
     documents: Schema.Types.ObjectId[];
-    summary: Schema.Types.ObjectId[];
     quizzes: Schema.Types.ObjectId[];
 }
 
@@ -18,7 +17,6 @@ const SessionSchema: Schema<Session> = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required'],
-        trim: true,
     },
     code: {
         type: String,
@@ -36,11 +34,6 @@ const SessionSchema: Schema<Session> = new mongoose.Schema({
     documents: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Document',
-        default: [],
-    },
-    summary: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Summary',
         default: [],
     },
     quizzes: {
