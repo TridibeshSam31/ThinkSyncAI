@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
       { status: 401 }
     );
   }
-  const userId = user._id;
+  
   try{
+    const userId = user._id;
     const { sessionId, subjectId, topicId, uploadedBy, fileName, fileUrl, fileType, size } = await request.json();
     const session = await Session.findById(sessionId);
     if(!session) {
@@ -28,6 +29,47 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
+    //agar session id nhi mila mtlb user aaya hi pehli bar hai usko sign up krna pdega
+    //ek aur case bhi ho skta hai ki agar sessionid session ke andar userid mili mtlb ki woh sign in kr toh chuka hai lekin iss session ka part nhi hai
+
+    
+    if(!session.members.includes(userId as any)) {
+      return Response.json({
+        success:false,message:'You are no the member of this session'
+        
+      },{status:403})
+
+    }
+
+    //before submitting the doc there will be a size limitation which is necessary
+    const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB in bytes
+    const MIN_FILE_SIZE = 1; // 1 byte
+    if(size>MAX_FILE_SIZE){
+      return Response.json(
+        { success: false, message: 'File size exceedss the limit' },
+        { status: 400 }
+      );
+
+    }
+    if (size < MIN_FILE_SIZE) {
+      return Response.json({
+        success: false,
+        message: 'File size is too small',
+      })
+    }
+
+    //ab filename pr check lgane ki koi jarurat nhi hai kyonki woh default hoga hi
+    //next aage file types mai agar file types pdf docs pptx txt ya csv ke alawa kuch hua then allow nhi krna 
+
+    const fileTypes = ['pdf', 'docx', 'pptx', 'txt', 'csv'];
+    if (!fileTypes.includes(fileType)) {
+      return Response.json(
+        { success: false, message: 'Invalid file type' },
+        { status: 403}
+      );
+    }
+
+    
 
     const doc = await Document.create({
       sessionId,
@@ -65,4 +107,5 @@ export async function GET(request: NextRequest) {
     { success: true, docs },
     { status: 200 }
    );
+
 }
