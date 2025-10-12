@@ -5,7 +5,7 @@ export interface Notification extends Document {
   sessionId: Schema.Types.ObjectId; 
   type: "system" | "message" | "document" | "quiz" | "syllabus" | "summary";
   message: string;
-  relatedId?: Schema.Types.ObjectId; 
+  subjectId?: Schema.Types.ObjectId; 
   read: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -28,13 +28,16 @@ const NotificationSchema: Schema<Notification> = new mongoose.Schema(
       enum: ["system", "message", "document", "quiz", "syllabus", "summary"],
       required: true,
     },
+    /*
     message: {
       type: String,
       required: true,
     },
-    relatedId: {
+    */
+    subjectId: {
       type: Schema.Types.ObjectId,
       default: null, 
+      ref:"subject"
     },
     read: {
       type: Boolean,
