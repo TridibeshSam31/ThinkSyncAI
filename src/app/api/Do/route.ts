@@ -5,6 +5,7 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { User } from "next-auth";
 import Session from "@/model/Session";
 import Document from "@/model/document";
+import { success } from "zod";
 
 
 export async function POST(request: NextRequest) {
@@ -141,4 +142,34 @@ export async function DELETE(request:NextRequest){
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 })
   }
 
+}
+
+
+//update a document 
+
+export async function PUT(request:NextRequest){
+  await dbConnect()
+  const {searchParams} = new URL(request.url)
+  const id = searchParams.get("id")
+  if (!id) {
+    return NextResponse.json({
+      success:false,message:"id is missing"
+    },{status:400})
+  }
+  try {
+    const updates = await request.json()
+    const updated = await Document.findByIdAndUpdate(id,updates,{status:400})
+    if(!updated){
+      return NextResponse.json({
+        success:false,
+        message:'Document not found'
+      },{status:404})
+
+    }
+    return NextResponse.json({ success: true, document: updated }, { status: 200 });
+
+  }catch (error) {
+    console.error("PUT /api/Document error:", error);
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
+  }
 }

@@ -28,12 +28,12 @@ const NotificationSchema: Schema<Notification> = new mongoose.Schema(
       enum: ["system", "message", "document", "quiz", "syllabus", "summary"],
       required: true,
     },
-    /*
+    
     message: {
       type: String,
       required: true,
     },
-    */
+    
     subjectId: {
       type: Schema.Types.ObjectId,
       default: null, 
