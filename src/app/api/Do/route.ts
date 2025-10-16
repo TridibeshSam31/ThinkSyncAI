@@ -1,10 +1,12 @@
 import dbConnect from "@/lib/dbConnect";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { User } from "next-auth";
 import Session from "@/model/Session";
 import Document from "@/model/document";
+import { success } from "zod";
+
 
 export async function POST(request: NextRequest) {
     await dbConnect();
@@ -98,14 +100,76 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-    await dbConnect();
+  await dbConnect();
    const {searchParams} = new URL(request.url);
    const sessionId = searchParams.get('sessionId');
 
-   const docs = await Document.find({ sessionId }).populate('uploadedBy',"username");
-   return Response.json(
-    { success: true, docs },
-    { status: 200 }
-   );
+   if (!sessionId) {
+    return NextResponse.json({
+      success:false , message:'Missing SessionId'
+    },{status:400})
+   }
 
+    try {
+      
+    } catch (error) {
+      console.error('GET /api/Do error:', error)
+      return NextResponse.json({
+        success: false, message: 'Internal server error'
+      },{status: 500})
+    }
+   
+
+}
+
+
+
+//delete a document and update and document 
+
+//delte a document 
+//directly  delete from id
+
+export async function DELETE(request:NextRequest){
+ await dbConnect();
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  if (!id) return NextResponse.json({ success: false, message: "Missing id" }, { status: 400 });
+
+  try {
+    
+  } catch (error) {
+    console.error("DELETE /api/Document error:", error);
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 })
+  }
+
+}
+
+
+//update a document 
+
+export async function PUT(request:NextRequest){
+  await dbConnect()
+  const {searchParams} = new URL(request.url)
+  const id = searchParams.get("id")
+  if (!id) {
+    return NextResponse.json({
+      success:false,message:"id is missing"
+    },{status:400})
+  }
+  try {
+    const updates = await request.json()
+    const updated = await Document.findByIdAndUpdate(id,updates,{status:400})
+    if(!updated){
+      return NextResponse.json({
+        success:false,
+        message:'Document not found'
+      },{status:404})
+
+    }
+    return NextResponse.json({ success: true, document: updated }, { status: 200 });
+
+  }catch (error) {
+    console.error("PUT /api/Document error:", error);
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
+  }
 }
