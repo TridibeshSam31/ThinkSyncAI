@@ -111,9 +111,16 @@ export async function GET(request: NextRequest) {
    }
 
     try {
+        const docs = await Document.find({ sessionId })
+        .populate('uploadedBy', 'username');
+
+    return NextResponse.json(
+      { success: true, docs },
+      { status: 200 }
+    );
       
     } catch (error) {
-      console.error('GET /api/Do error:', error)
+      console.error('GET /api/Document error:', error)
       return NextResponse.json({
         success: false, message: 'Internal server error'
       },{status: 500})
@@ -136,7 +143,19 @@ export async function DELETE(request:NextRequest){
   if (!id) return NextResponse.json({ success: false, message: "Missing id" }, { status: 400 });
 
   try {
-    
+     const deletedDoc = await Document.findByIdAndDelete(id);
+
+    if (!deletedDoc) {
+      return NextResponse.json(
+        { success: false, message: "Document not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Document deleted successfully", deletedDoc },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("DELETE /api/Document error:", error);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 })
@@ -158,7 +177,7 @@ export async function PUT(request:NextRequest){
   }
   try {
     const updates = await request.json()
-    const updated = await Document.findByIdAndUpdate(id,updates,{status:400})
+    const updated = await Document.findByIdAndUpdate(id,{ $set: updates }, { new: true, runValidators: true });
     if(!updated){
       return NextResponse.json({
         success:false,
