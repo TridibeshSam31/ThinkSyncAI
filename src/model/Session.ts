@@ -25,6 +25,9 @@ const SessionSchema: Schema<Session> = new mongoose.Schema({
     },
     description: {
         type: String,
+        default: 'No description provided',
+        maxlength: [500, 'Description must be less than 500 characters'],
+        minlength: [10, 'Description must be at least 10 characters long'],
     },
     messages: {
         type: [mongoose.Schema.Types.ObjectId],
@@ -49,7 +52,9 @@ const SessionSchema: Schema<Session> = new mongoose.Schema({
     members: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
-        default: [],
+        default: function () {
+            return this.creator ? [this.creator] : [];
+          }
     },
 },
 {

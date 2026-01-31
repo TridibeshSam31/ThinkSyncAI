@@ -5,26 +5,29 @@ export interface Message extends Document {
 sessionId:Schema.Types.ObjectId;
 senderId:Schema.Types.ObjectId;
 content:string;
-messageType?:"text|image|file" , default:"text";
+messageType?:"text" | "image" | "file";
 fileUrl?:string;
 fileName?:string;
-
+createdAt: Date;
+updatedAt: Date;
 }
 
 
 const MessageSchema:Schema<Message> = new mongoose.Schema({
     sessionId: {
         type: Schema.Types.ObjectId,
-        ref:"Session"
+        ref:"Session",
+        required:[true,'Session Id is required']
     },
     senderId:{
         type:Schema.Types.ObjectId,
         ref:"User",
-        required:true
+        required:[true,'Sender Id is required']
     },
     content:{
         type:String,
-        required: true
+        required: true,
+        default: ''
     },
     messageType:{
         type:String,
@@ -40,6 +43,15 @@ const MessageSchema:Schema<Message> = new mongoose.Schema({
         default:null
     }
 
+},
+{
+    timestamps: true,
 })
+MessageSchema.index({ sessionId: 1, createdAt: -1 });
 
-export default mongoose.model<Message>('Message',MessageSchema);
+
+const messageModel =
+    (mongoose.models.Message as mongoose.Model<Message>) ||
+    mongoose.model<Message>('Message', MessageSchema);
+
+export default messageModel;

@@ -10,23 +10,26 @@ export interface Quiz  extends Document {
         options: String[];
         answer: String;
     }];
-    createdBy:Schema.Types.ObjectId
-
-    
+    createdBy:Schema.Types.ObjectId;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const QuizSchema:Schema<Quiz> = new mongoose.Schema({
     sessionId:{
         type:Schema.Types.ObjectId,
-        ref:'Session'
+        ref:'Session',
+        required:[true,'Session Id is required']
     },
     topicId:{
         type:Schema.Types.ObjectId,
-        ref:'topic'
+        ref:'Topic',
+        required:[true,'Topic Id is required']
     },
     documentId:{
         type:Schema.Types.ObjectId,
-        ref:'document'
+        ref:'documentS',
+        required:[true,'Document Id is required']
     },
     title:{
         type:String,
@@ -45,8 +48,9 @@ const QuizSchema:Schema<Quiz> = new mongoose.Schema({
         required:true
 
     }
-
-
+},
+{
+    timestamps: true,
 })
 
 export default mongoose.model<Quiz>('quiz',QuizSchema);

@@ -18,8 +18,14 @@ const subjectSchema:Schema<Subject> = new mongoose.Schema({
     },
     description:{
         type:String,
+        default: 'No description provided',
     }
+
 
 })
 
-export default mongoose.model<Subject>('Subject',subjectSchema);
+const subjectModel =
+    (mongoose.models.Subject as mongoose.Model<Subject>) ||
+    mongoose.model<Subject>('Subject', subjectSchema);
+
+export default subjectModel;

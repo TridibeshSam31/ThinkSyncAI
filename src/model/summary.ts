@@ -5,12 +5,15 @@ export interface Summary extends Document {
     summaryText:string;
     generatedBy:Schema.Types.ObjectId;
     tokensUsed:number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const summarySchema:Schema<Summary> = new mongoose.Schema({
     documentId:{
         type:Schema.Types.ObjectId,
-        ref:'Document',
+        ref:'document',
+        required:[true,'Document Id is required']
     },
     summaryText:{
         type:String,
@@ -24,7 +27,9 @@ const summarySchema:Schema<Summary> = new mongoose.Schema({
     tokensUsed:{
         type:Number
     }
-
+},
+{
+    timestamps: true,
 })
 
 export default mongoose.model<Summary>('summary',summarySchema)

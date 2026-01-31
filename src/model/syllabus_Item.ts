@@ -8,22 +8,26 @@ export interface Syllabus  extends Document {
     description:string;
     order:Number;
     status?:"pending"|"in-progress"|"completed",
-    updatedBy:Schema.Types.ObjectId
-
+    updatedBy:Schema.Types.ObjectId;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const syllabusSchema:Schema<Syllabus> = new mongoose.Schema({
     sessionId:{
         type:Schema.Types.ObjectId,
-        ref:'Session'
+        ref:'Session',
+        required:[true,'Session Id is required'],
     },
     subjectId:{
         type:Schema.Types.ObjectId,
-        ref:'subject'
+        ref:'Subject',
+        required:[true,'Subject Id is required'],
     },
     topicId:{
         type:Schema.Types.ObjectId,
-        ref:'topic'
+        ref:'Topic',
+        required:[true,'Topic Id is required'],
     },
     description:{
         type:String,
@@ -34,15 +38,20 @@ const syllabusSchema:Schema<Syllabus> = new mongoose.Schema({
     },
     status:{
         type:String,
-        enum: ["pending", "in-progress", "completed"]
+        enum: ["pending", "in-progress", "completed"],
+        default: "pending",
     },
     updatedBy:{
         type:Schema.Types.ObjectId,
         ref:'User'
     }
-
-
-
+},
+{
+    timestamps: true,
 })
 
-export default mongoose.model<Syllabus>('syllabus_Item',syllabusSchema)
+const syllabusModel =
+    (mongoose.models.Syllabus as mongoose.Model<Syllabus>) ||
+    mongoose.model<Syllabus>('Syllabus', syllabusSchema);
+
+export default syllabusModel;
