@@ -7,13 +7,15 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "esnext",
+    "module": "NodeNext",
     "target": "ES2017",
-    "types": [],
+    "types": ["node"],
+    "moduleResolution": "nodenext",
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
     // and npm install -D @types/node
+    
 "baseUrl": ".",
 "paths": {
   "@repo/models": ["../packages/models/src"]

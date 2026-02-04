@@ -28,7 +28,7 @@ const QuizSchema:Schema<Quiz> = new mongoose.Schema({
     },
     documentId:{
         type:Schema.Types.ObjectId,
-        ref:'documentS',
+        ref:'documents',
         required:[true,'Document Id is required']
     },
     title:{
@@ -44,7 +44,7 @@ const QuizSchema:Schema<Quiz> = new mongoose.Schema({
     },
     createdBy:{
         type:Schema.Types.ObjectId,
-        ref:'User',
+        ref:'UserModel',
         required:true
 
     }

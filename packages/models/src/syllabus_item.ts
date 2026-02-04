@@ -43,7 +43,7 @@ const syllabusSchema:Schema<Syllabus> = new mongoose.Schema({
     },
     updatedBy:{
         type:Schema.Types.ObjectId,
-        ref:'User'
+        ref:'UserModel'
     }
 },
 {

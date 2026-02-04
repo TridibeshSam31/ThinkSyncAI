@@ -46,15 +46,15 @@ const SessionSchema: Schema<Session> = new mongoose.Schema({
     },
     creator: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'UserModel',
         required: [true, 'Creator is required'],
     },
     members: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'User',
-        default: function () {
+        ref: 'UserModel',
+        default: function (this: Session) {
             return this.creator ? [this.creator] : [];
-          }
+          },
     },
 },
 {

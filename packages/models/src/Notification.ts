@@ -15,7 +15,7 @@ const NotificationSchema: Schema<Notification> = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "UserModel",
       required: true,
     },
     sessionId: {
@@ -37,7 +37,7 @@ const NotificationSchema: Schema<Notification> = new mongoose.Schema(
     subjectId: {
       type: Schema.Types.ObjectId,
       default: null, 
-      ref:"subject"
+      ref:"Subject"
     },
     read: {
       type: Boolean,

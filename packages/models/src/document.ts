@@ -33,7 +33,7 @@ const documentsSchema:Schema<documents> = new mongoose.Schema({
     },
     uploadedBy:{
         type:Schema.Types.ObjectId,
-        ref:'User',
+        ref:'UserModel',
         required:[true,'Uploaded By is required'],
     },
     fileName:{

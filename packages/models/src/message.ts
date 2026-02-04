@@ -21,7 +21,7 @@ const MessageSchema:Schema<Message> = new mongoose.Schema({
     },
     senderId:{
         type:Schema.Types.ObjectId,
-        ref:"User",
+        ref:"UserModel",
         required:[true,'Sender Id is required']
     },
     content:{

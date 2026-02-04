@@ -21,7 +21,7 @@ const summarySchema:Schema<Summary> = new mongoose.Schema({
     },
     generatedBy:{
         type:Schema.Types.ObjectId,
-        ref:'User',
+        ref:'UserModel',
         required:true
     },
     tokensUsed:{
