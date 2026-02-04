@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
-import TopicModel from "@/model/topic";
+import { Topic } from "@repo/models";
 
 
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     if (!subjectId) return NextResponse.json({ success: false, message: "Missing subjectId" }, { status: 400 });
     if (!name || typeof name !== "string") return NextResponse.json({ success: false, message: "Missing or invalid name" }, { status: 400 });
 
-    const topic = await TopicModel.create({ subjectId, name, order });
+    const topic = await Topic.create({ subjectId, name, order });
     return NextResponse.json({ success: true, topic }, { status: 201 });
   } catch (error) {
     console.error("POST /api/Topic error:", error);
@@ -36,17 +36,17 @@ export async function GET(request: NextRequest) {
 
   try {
     if (id) {
-      const topic = await TopicModel.findById(id);
+      const topic = await Topic.findById(id);
       if (!topic) return NextResponse.json({ success: false, message: "Topic not found" }, { status: 404 });
       return NextResponse.json({ success: true, topic }, { status: 200 });
     }
 
     if (subjectId) {
-      const topics = await TopicModel.find({ subjectId }).sort({ order: 1 });
+      const topics = await Topic.find({ subjectId }).sort({ order: 1 });
       return NextResponse.json({ success: true, topics }, { status: 200 });
     }
 
-    const topics = await TopicModel.find().sort({ order: 1 });
+    const topics = await Topic.find().sort({ order: 1 });
     return NextResponse.json({ success: true, topics }, { status: 200 });
   } catch (error) {
     console.error("GET /api/Topic error:", error);
@@ -64,7 +64,7 @@ export async function DELETE(request: NextRequest) {
   if (!id) return NextResponse.json({ success: false, message: "Missing id" }, { status: 400 });
 
   try {
-    const deleted = await TopicModel.findByIdAndDelete(id);
+    const deleted = await Topic.findByIdAndDelete(id);
     if (!deleted) return NextResponse.json({ success: false, message: "Topic not found" }, { status: 404 });
     return NextResponse.json({ success: true, message: "Topic deleted" }, { status: 200 });
   } catch (error) {
@@ -83,7 +83,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const updates = await request.json();
-    const topic = await TopicModel.findByIdAndUpdate(id, updates, { new: true });
+    const topic = await Topic.findByIdAndUpdate(id, updates, { new: true });
     if (!topic) return NextResponse.json({ success: false, message: "Topic not found" }, { status: 404 });
     return NextResponse.json({ success: true, topic }, { status: 200 });
   } catch (error) {

@@ -7,7 +7,7 @@ import dbConnect from "@/lib/dbConnect";
 import { NextRequest,NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/options";
-import subject from "@/model/subject";
+import { Subject } from "@repo/models";
 
 
 
@@ -36,7 +36,7 @@ try {
       },{status:400})
     }
     
-    const subjectCreate = await subject.create({
+    const subjectCreate = await Subject.create({
         name:name,
         description:description,
         sessionId
@@ -63,7 +63,7 @@ await dbConnect();
     return NextResponse.json({ success: false, message: "Missing sessionId" }, { status: 400 });
   }
 try {
-    const getSubjects = await subject.find({sessionId})
+    const getSubjects = await Subject.find({sessionId})
      return NextResponse.json({ success: true, getSubjects }, { status: 200 });
 } catch (error) {
      return NextResponse.json({
@@ -84,7 +84,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const updates = await request.json();
-    const Findsubject = await subject.findByIdAndUpdate(id, updates, { new: true });
+    const Findsubject = await Subject.findByIdAndUpdate(id, updates, { new: true });
     if (!Findsubject) return NextResponse.json({ success: false, message: "Subject not found" }, { status: 404 });
     return NextResponse.json({ success: true, Findsubject }, { status: 200 });
   } catch (error) {
@@ -102,7 +102,7 @@ export async function DELETE(request: NextRequest) {
   if (!id) return NextResponse.json({ success: false, message: "Missing 'id' query param" }, { status: 400 });
 
   try {
-    const deleted = await subject.findByIdAndDelete(id);
+    const deleted = await Subject.findByIdAndDelete(id);
     if (!deleted) return NextResponse.json({ success: false, message: "Subject not found" }, { status: 404 });
     return NextResponse.json({ success: true, message: "Subject deleted" }, { status: 200 });
   } catch (error) {

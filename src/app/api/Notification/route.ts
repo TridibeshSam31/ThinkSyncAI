@@ -14,7 +14,7 @@ import dbConnect from "@/lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/options";
-import NotificationModel from "@/model/Notification";
+import { Notification } from "@repo/models";
 
 //create a notification
 export async function POST(request: NextRequest){
@@ -28,7 +28,7 @@ try {
 
     }
 
-    const notification = await NotificationModel.create({
+    const notification = await Notification.create({
       userId,
       sessionId,
       type,

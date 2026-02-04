@@ -2,10 +2,11 @@ import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/options";
-import { User } from "next-auth";
-import Session from "@/model/Session";
-import Document from "@/model/document";
+import { UserModel } from "@repo/models";
+import { Session } from "@repo/models";
+import { Document } from "@repo/models";
 import { success } from "zod";
+import { User } from "next-auth";
 
 
 export async function POST(request: NextRequest) {

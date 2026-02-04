@@ -3,7 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/options";
-import Message from "@/model/message"
+import { Message } from "@repo/models";
 import { success } from "zod";
 
 
