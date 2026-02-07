@@ -73,11 +73,13 @@ async jwt({ token, user, account }) {
     await dbConnect();
 
     let dbUser = await UserModel.findOne({ email: user.email });
-
     if (!dbUser) {
+      const email = user?.email ?? '';
+      const username = user?.name ?? (user?.email ? user.email.split('@')[0] : '');
+      if (!email) return token; // skip create if no email (shouldn't happen with Google)
       dbUser = await UserModel.create({
-        email: user?.email,
-        username: user?.name || (user.email ? user.email.split('@')[0] : ''),
+        email,
+        username,
         password: 'GOOGLE_OAUTH',
       });
     }
