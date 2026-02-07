@@ -1,8 +1,9 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
-import dbConnect from "./dbConnect.js";
-import { Message, Session, UserModel } from "@repo/models";
+import dbConnect from "./dbConnect";
+import { Message, Session, UserModel } from "../../packages/models/src";
+
 
 export function createSocketServer(server: ReturnType<typeof createServer>) {
   const io = new Server(server, {

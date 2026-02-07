@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import dotenv from "dotenv";
-import { createSocketServer } from "./socket.js";
+import { createSocketServer } from "./socket";
 
 dotenv.config();
 
